@@ -7,7 +7,7 @@ def game():
     user_score = 0
     robot_score = 0
 
-    def play_round():
+    def user_selection():
         # User Selection
         user_prompt = [
             inquirer.List('choice',
@@ -17,6 +17,10 @@ def game():
         ]
         user_choice = inquirer.prompt(user_prompt)
 
+        #User answer is saved as a dict. Must convert to string
+        return str(user_choice['choice'])
+
+    def robot_selection():
         # Robot Selection
         random_generator = randint(1, 3)
         robot_choice = ''
@@ -28,7 +32,13 @@ def game():
         elif random_generator == 3:
             robot_choice += 'Scissors'
 
-        print('Hello' + robot_choice)
+        return robot_choice
+
+    def play_round():
+        user_choice = user_selection()
+        robot_choice = robot_selection()
+
+        print(user_choice + " - " + robot_choice)
 
     # User chooses if they want to continue after conclusion of game
     def replay():
