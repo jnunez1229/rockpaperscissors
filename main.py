@@ -1,6 +1,23 @@
 from random import randint
 import inquirer
 
+user_score = 0
+robot_score = 0
+
+
+def replay():
+    user_prompt = [
+        inquirer.List('choice',
+                      message="Want to play again?",
+                      choices=['Yes', 'No'],
+                      ),
+    ]
+    willReplay = inquirer.prompt(user_prompt)
+    if str(willReplay['choice']) == 'Yes':
+        game()
+    else:
+        print('Ok, Thanks for playing!')
+
 
 def game():
     def user_selection():
@@ -32,24 +49,9 @@ def game():
 
         # User chooses if they want to continue after conclusion of game
 
-    def replay():
-        user_prompt = [
-            inquirer.List('choice',
-                          message="Want to play again?",
-                          choices=['Yes', 'No'],
-                          ),
-        ]
-        willReplay = inquirer.prompt(user_prompt)
-
-        if willReplay == 'Yes':
-            game()
-        else:
-            print('Ok, Thanks for playing!')
-
     def play_round():
-        user_score = 0
-        robot_score = 0
-
+        global user_score
+        global robot_score
         user_choice = user_selection()
         robot_choice = robot_selection()
 
@@ -75,19 +77,18 @@ def game():
             print("Your score: " + str(user_score))
             print("Robot's score: " + str(robot_score))
 
-            play_round()
-
-        # After overall winner decided
-        if user_score > 3:
-            print("You win the game!!")
-            user_score = 0
-            robot_score = 0
-            replay()
-        elif robot_score > 3:
-            print("You lose =(")
-            user_score = 0
-            robot_score = 0
-            replay()
+            if user_score > 2:
+                print("You win the game!!")
+                user_score = 0
+                robot_score = 0
+                replay()
+            elif robot_score > 2:
+                print("You lose =(")
+                user_score = 0
+                robot_score = 0
+                replay()
+            else:
+                play_round()
 
     play_round()
 
